@@ -17,15 +17,28 @@ package com.example.affirmations
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.Scaffold
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.example.affirmations.ui.theme.AffirmationsTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AffirmationApp()
+            AffirmationsTheme{
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colors.background
+                ) {
+                    AffirmationApp()
+                }
+            }
         }
     }
 }
@@ -33,5 +46,24 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AffirmationApp() {
     AffirmationsTheme {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth(),
+            shape = RectangleShape
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.image1),
+                    contentDescription = "Test"
+                )
+
+                Text(
+                    text = stringResource(R.string.affirmation1)
+                )
+            }
+        }
     }
 }
