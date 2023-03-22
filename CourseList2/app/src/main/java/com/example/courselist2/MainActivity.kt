@@ -11,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.courselist2.ui.theme.CourseList2Theme
+import com.example.courselist2.data.Datasource
+import com.example.courselist2.ui.theme.CourseList2Theme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    CourseGridScreen()
                 }
             }
         }
@@ -30,14 +32,6 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    CourseList2Theme {
-        Greeting("Android")
-    }
+fun CourseGridScreen() {
+    CourseList(topicList = Datasource().loadTopics())
 }
