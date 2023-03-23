@@ -1,10 +1,14 @@
 package com.example.woof
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
-import androidx.compose.runtime.Composable
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.woof.data.Dog
@@ -20,18 +24,59 @@ fun DogItem(
     dog: Dog,
     modifier: Modifier = Modifier
 ) {
+    var expanded by remember { mutableStateOf(false) }
+
+    val color by animateColorAsState(
+        targetValue = if(expanded) {
+            MaterialTheme.colors.secondary
+        } else {
+            MaterialTheme.colors.surface
+        }
+    )
+
     Card(
         modifier = modifier
             .padding(8.dp),
         elevation = 4.dp
     ) {
-        Row(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
+                .animateContentSize(
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioNoBouncy,
+                        stiffness = Spring.StiffnessLow
+                    )
+                )
+                .background(color = color)
         ) {
-            DogIcon(dog.imageResourceId)
-            DogInformation(dog.name, dog.age)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            ) {
+                DogIcon(
+                    dog.imageResourceId
+                )
+
+                DogInformation(
+                    dog.name,
+                    dog.age
+                )
+
+                Spacer(Modifier.weight(1f))
+
+                DogItemButton(
+                    expand = expanded,
+                    onClick = { expanded = !expanded }
+                )
+            }
+
+            if(expanded) {
+                DogHobby(
+                    dogHobby = dog.hobbies,
+                    color = color
+                )
+            }
         }
     }
 }
